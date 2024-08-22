@@ -12,7 +12,7 @@ username = os.environ.get('USERNAME')
 password = os.environ.get('PASSWORD')
 host_ip = os.environ.get('HOST_IP')
 
-url = https://www.screener.in/company/RELIANCE/consolidated/
+url = "https://www.screener.in/company/RELIANCE/consolidated/"
 webpage = requests.get(url)
 soup = bs(webpage.text,'html.parser')
 data = soup.find('section', id="profit-loss")
