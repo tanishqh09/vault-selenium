@@ -12,7 +12,7 @@ username = os.environ.get('USERNAME')
 password = os.environ.get('PASSWORD')
 host_ip = os.environ.get('HOST_IP')
 
-url = f'https://screener.in/company/{stock_code}/consolidated/'
+url = https://www.screener.in/company/RELIANCE/consolidated/
 webpage = requests.get(url)
 soup = bs(webpage.text,'html.parser')
 data = soup.find('section', id="profit-loss")
@@ -36,7 +36,7 @@ df_table.iloc[0,0] = 'Section'
 df_table.columns = df_table.iloc[0]
 df_table = df_table[1:]
 
-df_table['Stock'] = f"{stock_code}" 
+df_table['Stock'] = "reliance" 
 df_table = df_table.reset_index()
  
 db_host = host_ip
