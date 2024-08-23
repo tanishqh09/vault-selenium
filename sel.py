@@ -16,7 +16,7 @@ chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--disable-dev-shm-usage")
 chrome_options.add_argument("--window-size=1920,1080")
 
-# Create 'downloads' directory if it doesn't exist
+# Define and create 'downloads' directory
 downloads_dir = os.path.join(os.getcwd(), 'downloads')
 os.makedirs(downloads_dir, exist_ok=True)
 
