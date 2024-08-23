@@ -6,6 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
 import os
 import time
+import shutil
 
 # Set up Chrome options
 chrome_options = Options()
@@ -15,10 +16,13 @@ chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--disable-dev-shm-usage")
 chrome_options.add_argument("--window-size=1920,1080")
 
+# Create 'downloads' directory if it doesn't exist
+downloads_dir = os.path.join(os.getcwd(), 'downloads')
+os.makedirs(downloads_dir, exist_ok=True)
+
 # Set download directory preferences
-current_dir = os.getcwd()
 prefs = {
-    "download.default_directory": current_dir,
+    "download.default_directory": downloads_dir,
     "download.prompt_for_download": False,
     "download.directory_upgrade": True,
     "safebrowsing.enabled": True
@@ -73,7 +77,7 @@ start_time = time.time()
 timeout = 60  # Timeout in seconds
 
 while not download_complete and (time.time() - start_time < timeout):
-    files = os.listdir(current_dir)
+    files = os.listdir(downloads_dir)
     for file in files:
         if file.endswith('.xlsx'):
             print(f"Found downloaded file: {file}")
@@ -85,6 +89,6 @@ while not download_complete and (time.time() - start_time < timeout):
 if not download_complete:
     print("Download did not complete within the timeout period.")
 else:
-    print("Files in download directory after wait:", os.listdir(current_dir))
+    print("Files in download directory after wait:", os.listdir(downloads_dir))
 
 driver.quit()
