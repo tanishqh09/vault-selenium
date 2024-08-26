@@ -8,7 +8,7 @@ import time
 import os
 import shutil
 
-# Define the path for downloads and repo directories
+# Define the path for downloads and repo
 downloads_path = os.path.join(os.getcwd(), 'downloads')
 repo_path = os.path.join(os.getcwd(), 'repo')
 
