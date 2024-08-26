@@ -8,13 +8,11 @@ import time
 import os
 import shutil
 
-# Define the path for downloads and repo
+# Define the path for downloads
 downloads_path = os.path.join(os.getcwd(), 'downloads')
-repo_path = os.path.join(os.getcwd(), 'repo')
 
-# Ensure the directories exist
+# Ensure the downloads directory exists
 os.makedirs(downloads_path, exist_ok=True)
-os.makedirs(repo_path, exist_ok=True)
 
 chrome_options = Options()
 chrome_options.add_argument("--headless")  # Run in headless mode
@@ -79,10 +77,14 @@ print("Files in download directory before wait:", os.listdir(downloads_path))
 
 # Ensure the downloaded file is present
 downloaded_file = 'Reliance Industr.xlsx'
-downloaded_file_path = os.path.join(downloads_path, downloaded_file)
-if os.path.isfile(downloaded_file_path):
+if downloaded_file in os.listdir(downloads_path):
     # Move the downloaded file to the repo directory
-    shutil.move(downloaded_file_path, os.path.join(repo_path, downloaded_file))
+    repo_dir = os.path.join(os.getcwd(), 'repo')
+    os.makedirs(repo_dir, exist_ok=True)
+    
+    # Move the file from downloads to repo directory
+    shutil.move(os.path.join(downloads_path, downloaded_file), os.path.join(repo_dir, downloaded_file))
+    
     print(f"Moved {downloaded_file} to repo directory.")
 else:
     print(f"File {downloaded_file} not found in download directory.")
