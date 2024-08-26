@@ -4,11 +4,16 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
-import os
 import time
+import os
 import shutil
 
-# Set up Chrome options
+# Define the path for downloads
+downloads_path = os.path.join(os.getcwd(), 'downloads')
+
+# Ensure the downloads directory exists
+os.makedirs(downloads_path, exist_ok=True)
+
 chrome_options = Options()
 chrome_options.add_argument("--headless")  # Run in headless mode
 chrome_options.add_argument("--disable-gpu")
@@ -16,21 +21,17 @@ chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--disable-dev-shm-usage")
 chrome_options.add_argument("--window-size=1920,1080")
 
-# Define and create 'downloads' directory
-downloads_dir = os.path.join(os.getcwd(), 'downloads')
-os.makedirs(downloads_dir, exist_ok=True)
-
-# Set download directory preferences
+# Set Chrome preferences to download files to the specified directory
 prefs = {
-    "download.default_directory": downloads_dir,
+    "download.default_directory": downloads_path,
     "download.prompt_for_download": False,
     "download.directory_upgrade": True,
     "safebrowsing.enabled": True
 }
 chrome_options.add_experimental_option("prefs", prefs)
 
-# Initialize the Chrome driver
 service = Service('/usr/local/bin/chromedriver')
+
 driver = webdriver.Chrome(service=service, options=chrome_options)
 
 def login(username, password):
@@ -54,16 +55,13 @@ def login(username, password):
     )
     second_login_button.click()
 
-# Open the page and perform actions
 driver.get("https://www.screener.in/company/RELIANCE/consolidated/")
 
-# Wait for export button and click
 export = WebDriverWait(driver, 10).until(
     EC.element_to_be_clickable((By.XPATH, '//*[contains(concat( " ", @class, " " ), concat( " ", "icon-download", " " ))]'))
 )
 export.click()
 
-# Log in and click export again
 login("tanishq@gmail.co.in", "tanishq@gmail.co.in")
 
 export = WebDriverWait(driver, 10).until(
@@ -71,24 +69,22 @@ export = WebDriverWait(driver, 10).until(
 )
 export.click()
 
-# Wait for download to complete
-download_complete = False
-start_time = time.time()
-timeout = 60  # Timeout in seconds
+# Wait for the download to complete
+time.sleep(10)
 
-while not download_complete and (time.time() - start_time < timeout):
-    files = os.listdir(downloads_dir)
-    for file in files:
-        if file.endswith('.xlsx'):
-            print(f"Found downloaded file: {file}")
-            download_complete = True
-            break
-    if not download_complete:
-        time.sleep(5)  # Check every 5 seconds
+# List files in the download directory
+print("Files in download directory before wait:", os.listdir(downloads_path))
 
-if not download_complete:
-    print("Download did not complete within the timeout period.")
+# Ensure the downloaded file is present
+downloaded_file = 'Reliance Industr.xlsx'
+if downloaded_file in os.listdir(downloads_path):
+    # Move the downloaded file to the repo directory
+    repo_dir = os.path.join(os.getcwd(), 'repo')
+    os.makedirs(repo_dir, exist_ok=True)
+    
+    # Move the file from downloads to repo directory
+    shutil.move(os.path.join(downloads_path, downloaded_file), os.path.join(repo_dir, downloaded_file))
+    
+    print(f"Moved {downloaded_file} to repo directory.")
 else:
-    print("Files in download directory after wait:", os.listdir(downloads_dir))
-
-driver.quit()
+    print(f"File {downloaded_file} not found in download directory.")
