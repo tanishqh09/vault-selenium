@@ -73,15 +73,14 @@ export.click()
 time.sleep(10)
 
 # List files in the download directory
-download_dir=current_dir
 print("Files in download directory before wait:", os.listdir(downloads_path))
 
 while True:
-  files = os.listdir(download_dir)
+  files = os.listdir(download_path)
   if "Reliance Industr.xlsx" in files: 
     break 
     time.sleep(1) # Read Excel file into pandas DataFrame 
-df = pd.read_excel(os.path.join(download_dir, "Reliance Industr.xlsx"))
+df = pd.read_excel(os.path.join(download_path, "Reliance Industr.xlsx"))
 
 import pandas as pd
 df = pd.read_excel('Reliance Industr.xlsx', sheet_name='Data Sheet')
