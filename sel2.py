@@ -80,7 +80,7 @@ while True:
   if "Reliance Industr.xlsx" in files: 
     break 
     time.sleep(1) # Read Excel file into pandas DataFrame 
-df = pd.read_excel(os.path.join(download_path, "Reliance Industr.xlsx"))
+df = pd.read_excel(os.path.join(downloads_path, "Reliance Industr.xlsx"))
 
 import pandas as pd
 df = pd.read_excel('Reliance Industr.xlsx', sheet_name='Data Sheet')
