@@ -5,4 +5,4 @@ try:
     print("Excel file contents:")
     print(df)
 except Exception as e:
-    print(f"Failed to read the Excel file: {e}")' 
+    print(f"Failed to read the Excel file: {e}")
