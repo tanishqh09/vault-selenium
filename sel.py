@@ -88,3 +88,10 @@ if downloaded_file in os.listdir(downloads_path):
     print(f"Moved {downloaded_file} to repo directory.")
 else:
     print(f"File {downloaded_file} not found in download directory.")
+
+import pandas as pd
+df = pd.read_excel('Reliance Industr.xlsx', sheet_name='Data Sheet')
+print("Original DataFrame:")
+print(df)
+df = df.iloc[14:10, :11]
+pritn(df)
